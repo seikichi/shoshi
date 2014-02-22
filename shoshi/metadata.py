@@ -129,7 +129,7 @@ def namedtuple2dict(o, include_none_value_field, to_camel_case):
                 key = snake2camel(key)
             pairs.append((key, value))
         d = dict(pairs)
-        if include_none_value_field:
+        if not include_none_value_field:
             delete_keys = [k for k in d if d[k] is None]
             for k in delete_keys:
                 d.pop(k)
