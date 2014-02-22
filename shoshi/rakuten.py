@@ -64,6 +64,7 @@ def metadata_from_isbn(isbn, application_id):
 
 
 def metadata_from_magazine_code(jan, application_id):
+    jan = re.sub('\D', '', jan)
     URL = 'https://app.rakuten.co.jp/services/api/BooksMagazine/Search/20130522'
     params = {'jan': jan, 'applicationId': application_id}
     response = requests.get(URL, params=params)
