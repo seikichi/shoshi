@@ -84,7 +84,12 @@ def merge(ndl_metadata, amazon_metadata, rakuten_metadata, wikipedia_metadata):
     if not nm.title:
         volume = volume or rm.volume or am.volume
     # シリーズ情報
-    series = (nm.series or rm.series) + wm.series
+    # - NDL ではタイトルだが，Rakuten ではシリーズ，みたいな例が存在する
+    # - NDL のタイトルが無い場合のみ Rakuten のシリーズを許可
+    series = nm.series
+    if not nm.title:
+        series = series or rm.series
+    series.extend(wm.series)
     # 出版社
     publishers = (nm.publishers or rm.publishers or am.publishers)
     # 内容細目はNDLにしか存在しない
