@@ -408,17 +408,16 @@ def metadata_from_opensearch_response(response):
 if __name__ == '__main__':
     import json
     import argparse
-    from .util import namedtuple2dict
     parser = argparse.ArgumentParser(description='find book metadata from NDL')
     parser.add_argument('--isbn', action="store", dest="isbn")
     parser.add_argument('--jpno', action="store", dest="jpno")
-    parser.add_argument('--delete-false-items', action='store_true',
-                        dest='delete_false_items')
+    parser.add_argument('--include-null-value-field', action='store_true',
+                        dest='include_none_value_field')
     args = parser.parse_args()
     metadata = Metadata()
     if args.isbn:
         metadata = metadata_from_isbn(args.isbn)
     elif args.jpno:
         metadata = metadata_from_jpno(args.jpno)
-    print(json.dumps(namedtuple2dict(metadata, args.delete_false_items),
+    print(json.dumps(metadata.todict(args.include_none_value_field),
                      ensure_ascii=False))

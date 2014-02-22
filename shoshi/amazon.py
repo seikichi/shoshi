@@ -12,12 +12,14 @@ from .amazon_magazine import parse_magazine_title
 
 
 def normalize_author(author):
-    return normalize(author).replace(' ', '')
+    return re.sub(r'\s+', '', normalize(author))
 
 
 def metadata_from_asin(ASIN, access_key_id, secret_access_key, associate_tag):
-    return metadata_from_ean(ASIN, access_key_id,
-                             secret_access_key, associate_tag)
+    return metadata_from_ean(ASIN,
+                             access_key_id,
+                             secret_access_key,
+                             associate_tag)
 
 
 def metadata_from_ean(EAN, access_key_id, secret_access_key, associate_tag):
@@ -135,15 +137,14 @@ def metadata_from_ean(EAN, access_key_id, secret_access_key, associate_tag):
 if __name__ == '__main__':
     import json
     import argparse
-    from .util import namedtuple2dict
     parser = argparse.ArgumentParser(
         description='find book metadata from Amazon')
     parser.add_argument('--ean', action="store", dest="ean")
     parser.add_argument('--asin', action="store", dest="asin")
     parser.add_argument('--amazon-auth-info', action="store",
                         dest="amazon_auth_info", required=True)
-    parser.add_argument('--delete-false-items', action='store_true',
-                        dest='delete_false_items')
+    parser.add_argument('--include-null-value-field', action='store_true',
+                        dest='include_none_value_field')
     args = parser.parse_args()
     metadata = Metadata()
     if args.ean:
@@ -152,5 +153,5 @@ if __name__ == '__main__':
     elif args.asin:
         metadata = metadata_from_asin(
             args.asin, *re.split(r',\s*', args.amazon_auth_info))
-    print(json.dumps(namedtuple2dict(metadata, args.delete_false_items),
+    print(json.dumps(metadata.todict(args.include_none_value_field),
                      ensure_ascii=False))

@@ -14,7 +14,6 @@ path = os.path.join(path, '..')
 sys.path.insert(0, path)
 
 from .__init__ import metadata_from_isbn, metadata_from_ean, metadata_from_jpno
-from .util import namedtuple2dict
 from .metadata import Metadata
 
 parser = argparse.ArgumentParser(
@@ -33,8 +32,8 @@ parser.add_argument('--use-wikipedia', action="store_true",
 
 parser.add_argument('--prettyprint', action="store_true",
                     default=False, dest="prettyprint")
-parser.add_argument('--delete-false-items', action="store_true",
-                    default=False, dest="delete_false_items")
+parser.add_argument('--include-null-value-field', action='store_true',
+                    default=False, dest='include_none_value_field')
 
 args = parser.parse_args()
 amazon_auth_info = None
@@ -66,5 +65,5 @@ elif args.jpno:
         use_wikipedia=use_wikipedia)
 
 
-print(json.dumps(namedtuple2dict(metadata, args.delete_false_items),
+print(json.dumps(metadata.todict(args.include_none_value_field),
                  ensure_ascii=False, indent=2 if args.prettyprint else None))

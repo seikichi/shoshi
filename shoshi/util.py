@@ -28,30 +28,3 @@ def normalize(text):
     if not isinstance(text, str):
         return text
     return unicodedata.normalize('NFKC', text)
-
-
-def snake2camel(snake_str):
-    components = snake_str.split('_')
-    return components[0] + "".join(x.title() for x in components[1:])
-
-
-def namedtuple2dict(o, delete_false_element=False):
-    if hasattr(o, '_asdict'):
-        return namedtuple2dict(o._asdict(), delete_false_element)
-    elif isinstance(o, (set, list)):
-        return [namedtuple2dict(item, delete_false_element)
-                for item in o]
-    elif isinstance(o, Mapping):
-        d = dict((snake2camel(key),
-                  namedtuple2dict(o[key], delete_false_element))
-                 for key in o)
-        if delete_false_element:
-            delete_keys = [k for k in d
-                           if d[k] is None
-                           or d[k] == []
-                           or d[k] == {}]
-            for k in delete_keys:
-                d.pop(k)
-        return d
-    else:
-        return o
