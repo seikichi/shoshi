@@ -37,7 +37,7 @@ def metadata_from_isbn(isbn, application_id):
     thumbnails = thumbnails_from_item(item)
     price = price_from_string(item.get('itemPrice'))
     date = date_from_string(item.get('salesDate'))
-    identifiers = {'ISBN10': isbn10, 'ISBN13': isbn13}
+    identifiers = {'ISBN10': isbn10, 'ISBN13': isbn13, 'EAN': isbn13}
     publishers = [Publisher(item.get('publisherName'), None, None)]
     links = [item.get('itemUrl')]
 
