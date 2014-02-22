@@ -33,12 +33,12 @@ def metadata_from_isbn(isbn, application_id):
         item.get('title', ''), item.get('titleKana', ''))
     series = series_from_strings(
         item.get('seriesName'), item.get('seriesNameKana'))
-    description = item.get('itemCaption', '') or None
+    description = normalize(item.get('itemCaption', '')) or None
     thumbnails = thumbnails_from_item(item)
     price = price_from_string(item.get('itemPrice'))
     date = date_from_string(item.get('salesDate'))
     identifiers = {'ISBN10': isbn10, 'ISBN13': isbn13, 'EAN': isbn13}
-    publishers = [Publisher(item.get('publisherName'), None, None)]
+    publishers = [Publisher(normalize(item.get('publisherName')))]
     links = [item.get('itemUrl')]
 
     if item.get('subtitle'):
@@ -72,13 +72,13 @@ def metadata_from_magazine_code(jan, application_id):
         return Metadata()
     item = data['Items'][0]['Item']
 
-    title = Title(item.get('title', ''), item.get('titleKana', ''), [], [])
+    title = Title(item.get('title', ''), item.get('titleKana', ''))
     description = item.get('itemCaption', '') or None
     thumbnails = thumbnails_from_item(item)
     price = price_from_string(item.get('itemPrice'))
     date = date_from_string(item.get('salesDate'))
     identifiers = {'EAN': jan}
-    publishers = [Publisher(item.get('publisherName'), None, None)]
+    publishers = [Publisher(normalize(item.get('publisherName')))]
     links = [item.get('itemUrl')]
     return Metadata(
         title=title,
