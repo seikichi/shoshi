@@ -111,7 +111,9 @@ def thumbnails_from_item(item):
 
 def series_from_strings(series, series_kana):
     if series:
-        return [Series(title=Title(series, series_kana, [], []), number=None)]
+        name = normalize(series)
+        transcription = normalize(series_kana)
+        return [Series(title=Title(name, transcription))]
     return []
 
 
