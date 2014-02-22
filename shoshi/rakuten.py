@@ -3,9 +3,13 @@
 
 import re
 import requests
-from .util import isbn10to13, isbn13to10
+from .util import isbn10to13, isbn13to10, normalize
 from .metadata import Metadata, Title, Creator, Volume, Series
 from .metadata import TitleElement, Publisher
+
+
+def normalize_author(author):
+    return normalize(author).replace(' ', '')
 
 
 def metadata_from_isbn(isbn, application_id):
@@ -132,8 +136,8 @@ def creators_from_strings(author, author_kana):
     for name, transcription in zip(author.split('/'),
                                    author_kana.split('/')):
         creators.append(Creator(
-            name,
-            ' '.join(transcription.split(',')),
+            normalize_author(name),
+            ' '.join(normalize(transcription).split(',')),
             None, None, None))
     return creators
 
