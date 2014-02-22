@@ -119,24 +119,29 @@ def merge(ndl_metadata, amazon_metadata, rakuten_metadata, wikipedia_metadata):
     # - Amazon には読みがない．役割表示は割とある．作者は大体のってる．
     # - Rakuten には読みがある．役割表示は全くない．作者はたまに欠けてる．
     creators = []
-    for m in (nm, am, rm):
-        for cm in m.creators:
-            for i in range(len(creators)):
-                ci = creators[i]
-                if ci.name == cm.name:
-                    # 同じ名前の著者を追加済み
-                    # => 属性アップデート
-                    c = Creator(
-                        name=ci.name,
-                        transcription=ci.transcription or cm.transcription,
-                        role=ci.role or cm.role,
-                        date_of_birth=ci.date_of_birth or cm.date_of_birth,
-                        date_of_death=ci.date_of_death or cm.date_of_death)
-                    creators.pop(i)
-                    creators.insert(i, c)
-                    break
-            else:
-                creators.append(cm)
+    # 翻訳モノは名前の表記がカタカナだったりそうじゃなかったりマチマチ
+    # になるので，各メタデータの統合は諦める
+    if nm.creators and any('訳' in c.role for c in nm.creators if c):
+        creators = nm.creators
+    else:
+        for m in (nm, am, rm):
+            for cm in m.creators:
+                for i in range(len(creators)):
+                    ci = creators[i]
+                    if ci.name == cm.name:
+                        # 同じ名前の著者を追加済み
+                        # => 属性アップデート
+                        c = Creator(
+                            name=ci.name,
+                            transcription=ci.transcription or cm.transcription,
+                            role=ci.role or cm.role,
+                            date_of_birth=ci.date_of_birth or cm.date_of_birth,
+                            date_of_death=ci.date_of_death or cm.date_of_death)
+                        creators.pop(i)
+                        creators.insert(i, c)
+                        break
+                else:
+                    creators.append(cm)
 
     return Metadata(
         title=title,
