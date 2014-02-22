@@ -138,9 +138,11 @@ def metadata_from_isbn(isbn, title, authors):
     # => Infobox animanga には小説と漫画4種類で計5作品の情報が入っている
     # => 与えられたISBNが指し示す書籍は一体どれに属するのだろう???
     adaptations = []
-    for infobox in wikicode.ifilter_templates(matches=r'{{Infobox\s+animanga/(Manga|Novel)'):
-        adaptation_type = re.match(r'^Infobox\s+animanga/(Manga|Novel)',
-                                   str(infobox.name)).group(1).lower()
+    for infobox in wikicode.ifilter_templates(matches=r'{{Infobox\s+animanga/([Mm]anga|[Nn]ovel)'):
+        match = re.match(r'^Infobox\s+animanga/([Mm]anga|[Nn]ovel)', str(infobox.name))
+        if match is None:
+            continue
+        adaptation_type = match.group(1).lower()
         # タイトルが明示されていれば，そちらを優先
         adaptation_title = series_name
         if infobox.has('タイトル'):
