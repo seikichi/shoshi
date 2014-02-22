@@ -119,11 +119,15 @@ def series_from_strings(series, series_kana):
 
 
 def title_and_volume_from_strings(title, title_kana):
-    # 注: 巻次は全角丸括弧で囲まれている
+    # 注: 巻次は全角丸括弧で囲まれている && 平仮名と片仮名以外の文字を含む
+    # 後者の条件が無いと "文学少女と死にたがりの道化（ピエロ）"
+    # の巻次が "ピエロ" になってしまう
+    # ちなみに "問題児たちが異世界から来るそうですよ？（YES！箱庭の日常ですっ！）"
+    # というタイトルの場合は括弧の中身を巻次扱いしたい
+    # NOTE: NDL だとタイトル関連情報に入ったり入らなかったりする
     NO_PAREN = r'[^\（\）]'
-    # 入れ子は一重まで許可
     volume_title_pattern = re.compile(
-        r'\（({0}+(\（{0}*\）{0}*)*)\）$'.format(NO_PAREN), re.U)
+        r'\（({0}*[^ぁ-んァ-ン]{0}*)\）$'.format(NO_PAREN), re.U)
     value_match = volume_title_pattern.search(title)
     if value_match is None:
         volume = None
