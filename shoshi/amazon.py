@@ -57,6 +57,7 @@ def metadata_from_ean(EAN, access_key_id, secret_access_key, associate_tag):
     list_price_elem = getattr(Item.ItemAttributes, 'ListPrice', None)
     if list_price_elem is not None:
         price = str(int(int(list_price_elem.Amount.text) / 1.05))
+    page_count = str(getattr(Item.ItemAttributes, 'NumberOfPages', ''))
 
     creators = []
     for author in getattr(root.Items.Item.ItemAttributes, 'Author', []):
@@ -127,6 +128,7 @@ def metadata_from_ean(EAN, access_key_id, secret_access_key, associate_tag):
         publishers=publishers,
         price=price,
         description=description,
+        page_count=page_count,
         links=links)
 
 
