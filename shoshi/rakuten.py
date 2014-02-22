@@ -93,7 +93,7 @@ def metadata_from_magazine_code(jan, application_id):
 
 def price_from_string(price):
     # 楽天のAPI結果には消費税が追加されている
-    return str(int(int(price) / 1.05))
+    return str(round(int(normalize(price)) / 1.05))
 
 
 def date_from_string(sales_date):
