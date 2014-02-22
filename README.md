@@ -15,26 +15,19 @@ shoshi は国立国会図書館，Amazon，楽天，Wikipedia のAPIを組み合
 
 ## 実行例
 ```
-% python -m shoshi --isbn 978-4-04-474839-5 \
+% python -m shoshi --isbn 4-04-429204-3 \
   --rakuten-application-id=${RAKUTEN_APPLICATION_ID} \
   --amazon-auth-info=${ACCESS_KEY},${SECRET_KEY},${ASSOCIATE_TAG} \
   --use-wikipedia --prettyprint
 {
   "title": {
-    "name": "問題児たちが異世界から来るそうですよ?", 
-    "transcription": "モンダイジタチ ガ イセカイ カラ クルソウデスヨ",
+    "transcription": "スズミヤ ハルヒ ノ ショウシツ", 
+    "relatedInformation": [], 
+    "name": "涼宮ハルヒの消失", 
     "parallels": []
-    "relatedInformation": [
-      {
-        "transcription": "YES ウサギ ガ ヨビマシタ", 
-        "name": "YES!ウサギが呼びました!", 
-        "parallels": []
-      }
-    ], 
-  },
+  }, 
   "series": [
     {
-      "number": "16763", 
       "title": {
         "transcription": "カドカワ ブンコ", 
         "relatedInformation": [], 
@@ -44,64 +37,61 @@ shoshi は国立国会図書館，Amazon，楽天，Wikipedia のAPIを組み合
     }, 
     {
       "title": {
-        "transcription": "カドカワ スニーカー ブンコ", 
         "relatedInformation": [], 
-        "name": "[角川スニーカー文庫]", 
+        "name": "涼宮ハルヒシリーズ", 
         "parallels": []
       }
     }
   ], 
+  "tags": [
+    "セカイ系", 
+    "学園小説", 
+    "サイエンス・フィクション", 
+    "恋愛漫画", 
+    "恋愛", 
+    "SF"
+  ],
   "publishers": [
     {
-      "transcription": "カドカワショテン", 
+      "transcription": "カドカワ ショテン", 
       "name": "角川書店", 
-      "location": "東京"
-    }, 
-    {
-      "transcription": "カドカワグループパブリッシング", 
-      "name": "角川グループパブリッシング", 
       "location": "東京"
     }
   ], 
-  "description": "世界に飽きていた逆廻十六夜に届いた一通の招待状。『全てを捨て、“箱庭”に来られたし』と書かれた手紙を読んだ瞬間ー完全無欠な異世界にいました!そこには猫を連れた無口な少女と高飛車なお嬢さま、そして彼らを呼んだ張本人の黒ウサギ。ウサギが箱庭世界のルールを説明しているさなか「魔王を倒そうぜ!」と十六夜が言いだして!?そんなこと黒ウサギは頼んでいないのですがっ!!超問題児3人と黒ウサギの明日はどっちだ。", 
-  "publishedDate": "2011-03-31", 
-  "price": "590", 
+  "description": "「涼宮ハルヒ?それ誰?」って、国木田よ、そう思いたくなる気持ちは解らんでもないが、そんなに真顔で言うことはないだろう。だが他のやつらもハルヒなんか最初からいなかったような口ぶりだ。混乱する俺に追い打ちをかけるようにニコニコ笑顔で教室に現れた女は、俺を殺そうとし、消失したはずの委員長・朝倉涼子だった!どうやら俺はちっとも笑えない状況におかれてしまったらしいな。大人気シリーズ第4巻、驚愕のスタート。", 
+  "publishedDate": "2004-07", 
+  "price": "514", 
   "identifiers": {
-    "ASIN": "404474839X", 
-    "JPNO": "21929841", 
-    "ISBN10": "404474839X", 
-    "ISBN13": "9784044748395", 
-    "EAN": "9784044748395"
+    "ASIN": "4044292043", 
+    "JPNO": "20647414", 
+    "ISBN10": "4044292043", 
+    "ISBN13": "9784044292041", 
+    "EAN": "9784044292041"
   }, 
   "links": [
-    "http://iss.ndl.go.jp/books/R100000002-I000011168394-00", 
-    "http://www.amazon.co.jp/dp/404474839X", 
-    "http://books.rakuten.co.jp/rb/11132773/", 
-    "http://ja.wikipedia.org/wiki/%E5%95%8F%E9%A1%8C%E5%85%90%E3%81%9F%E3%81%A1%E3%81%8C%E7%95%B0%E4%B8%96%E7%95%8C%E3%81%8B%E3%82%89%E6%9D%A5%E3%82%8B%E3%81%9D%E3%81%86%E3%81%A7%E3%81%99%E3%82%88%3F"
+    "http://iss.ndl.go.jp/books/R100000002-I000007442470-00", 
+    "http://www.amazon.co.jp/dp/4044292043", 
+    "http://books.rakuten.co.jp/rb/1696409/", 
+    "http://ja.wikipedia.org/wiki/%E6%B6%BC%E5%AE%AE%E3%83%8F%E3%83%AB%E3%83%92%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA"
   ], 
-  "tags": [
-    "喜劇", 
-    "コメディ", 
-    "ファンタジー"
-  ], 
-  "pageCount": "295", 
+  "pageCount": "254", 
   "creators": [
     {
-      "transcription": "タツノコ タロウ", 
+      "transcription": "タニガワ ナガル", 
       "role": "著", 
-      "name": "竜ノ湖太郎"
+      "name": "谷川流"
     }, 
     {
-      "transcription": "アマノユウ", 
       "role": "イラスト", 
-      "name": "天之有"
+      "name": "いとうのいぢ"
     }
   ], 
   "contents": [], 
   "thumbnails": {
-    "small": "http://ecx.images-amazon.com/images/I/51ZEynGf6PL._SL75_.jpg", 
-    "large": "http://ecx.images-amazon.com/images/I/51ZEynGf6PL.jpg", 
-    "medium": "http://ecx.images-amazon.com/images/I/51ZEynGf6PL._SL160_.jpg"
+    "small": "http://ecx.images-amazon.com/images/I/51xQDemuC0L._SL75_.jpg", 
+    "large": "http://ecx.images-amazon.com/images/I/51xQDemuC0L.jpg", 
+    "medium": "http://ecx.images-amazon.com/images/I/51xQDemuC0L._SL160_.jpg"
   }
 }
+
 ```
