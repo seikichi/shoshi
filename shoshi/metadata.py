@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from collections import namedtuple
+from collections import namedtuple, Mapping
 
 
 class Title(namedtuple('Title', ['name', 'transcription',
@@ -15,12 +15,14 @@ class Title(namedtuple('Title', ['name', 'transcription',
 class TitleElement(namedtuple('TitleElement', [
         'name', 'transcription', 'parallels'])):
     def __new__(klass, name, transcription=None, parallels=[]):
-        return super(TitleElement, klass).__new__(klass, name, transcription, parallels)
+        return super(TitleElement, klass).__new__(
+            klass, name, transcription, parallels)
 
 
 class Publisher(namedtuple('Publisher', ['name', 'transcription', 'location'])):
     def __new__(klass, name, transcription=None, location=None):
-        return super(Publisher, klass).__new__(klass, name, transcription, location)
+        return super(Publisher, klass).__new__(
+            klass, name, transcription, location)
 
 
 class Volume(namedtuple('Volume', ['name', 'transcription'])):
@@ -97,3 +99,40 @@ class Metadata(namedtuple('Metadata', [
             published_date,
             page_count,
             links)
+
+    def todict(self, include_none_value_field=True, to_camel_case=True):
+        return namedtuple2dict(self, include_none_value_field, to_camel_case)
+
+
+def snake2camel(snake_str):
+    components = snake_str.split('_')
+    return components[0] + "".join(x.title() for x in components[1:])
+
+
+def namedtuple2dict(o, include_none_value_field, to_camel_case):
+    if hasattr(o, '_asdict'):
+        return namedtuple2dict(o._asdict(),
+                               include_none_value_field,
+                               to_camel_case)
+    elif isinstance(o, (set, list)):
+        return [namedtuple2dict(item,
+                                include_none_value_field,
+                                to_camel_case)
+                for item in o]
+    elif isinstance(o, Mapping):
+        pairs = []
+        for key in o:
+            value = namedtuple2dict(o[key],
+                                    include_none_value_field,
+                                    to_camel_case)
+            if to_camel_case:
+                key = snake2camel(key)
+            pairs.append((key, value))
+        d = dict(pairs)
+        if include_none_value_field:
+            delete_keys = [k for k in d if d[k] is None]
+            for k in delete_keys:
+                d.pop(k)
+        return d
+    else:
+        return o
