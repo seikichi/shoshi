@@ -90,10 +90,12 @@ def create_publishers_from_root(root):
         name_elem = agent.find('foaf:name', root.nsmap)
         transcription_elem = agent.find('dcndl:transcription', root.nsmap)
         location_elem = agent.find('dcndl:location', root.nsmap)
-        name = name_elem.text if name_elem is not None else ''
+        name = name_elem.text if name_elem is not None else None
         transcription = (transcription_elem.text
-                         if transcription_elem is not None else '')
-        location = location_elem.text if location_elem is not None else ''
+                         if transcription_elem is not None else None)
+        location = location_elem.text if location_elem is not None else None
+        if not name:
+            continue
         publishers.append(Publisher(name=name,
                                     transcription=transcription,
                                     location=location))
