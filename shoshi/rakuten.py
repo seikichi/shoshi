@@ -106,7 +106,9 @@ def thumbnails_from_item(item):
 
 
 def series_from_strings(series, series_kana):
-    return [Series(title=Title(series, series_kana, [], []), number=None)]
+    if series:
+        return [Series(title=Title(series, series_kana, [], []), number=None)]
+    return []
 
 
 def title_and_volume_from_strings(title, title_kana):
