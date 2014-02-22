@@ -1,0 +1,11 @@
+MANIFEST
+build/
+docs/_build
+shoshi.egg-info/
+*.pyc
+*.swp
+*.egg
+
+*~
+
+
