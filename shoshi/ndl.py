@@ -48,7 +48,7 @@ def price_from_root(root):
     prices = root.xpath('//dcndl:price//text()', namespaces=root.nsmap)
     if len(prices) == 0:
         return None
-    return re.sub(r'\D', '', prices[0]) if len(prices) != 0 else None
+    return normalize(re.sub(r'\D', '', prices[0])) if len(prices) != 0 else None
 
 
 def page_count_from_root(root):
