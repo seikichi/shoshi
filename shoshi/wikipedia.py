@@ -198,14 +198,13 @@ def metadata_from_isbn(isbn, title, authors):
 if __name__ == '__main__':
     import json
     import argparse
-    from .util import namedtuple2dict
-    from .ndl import metadata_from_isbn as ndl_metadata_from_isbn
+    from . import ndl
 
     parser = argparse.ArgumentParser(
         description='find book metadata from Wikipedia')
     parser.add_argument('--isbn', action="store", dest="isbn", required=True)
     args = parser.parse_args()
-    metadata = ndl_metadata_from_isbn(args.isbn)
+    metadata = ndl.metadata_from_isbn(args.isbn)
 
     wikipedia_metadata = Metadata()
     if metadata.title:
@@ -213,5 +212,4 @@ if __name__ == '__main__':
             args.isbn,
             metadata.title.name,
             [c.name for c in metadata.creators])
-    print(json.dumps(namedtuple2dict(wikipedia_metadata, True),
-                     ensure_ascii=False))
+    print(json.dumps(wikipedia_metadata.todict(), ensure_ascii=False))
