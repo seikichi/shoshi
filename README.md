@@ -16,22 +16,10 @@ shoshi は国立国会図書館，Amazon，楽天，Wikipedia のAPIを組み合
   --amazon-auth-info=${ACCESS_KEY},${SECRET_KEY},${ASSOCIATE_TAG} \
   --use-wikipedia --prettyprint
 {
-  "publishers": [
-    {
-      "transcription": "カドカワショテン", 
-      "name": "角川書店", 
-      "location": "東京"
-    }, 
-    {
-      "transcription": "カドカワグループパブリッシング", 
-      "name": "角川グループパブリッシング", 
-      "location": "東京"
-    }
-  ], 
-  "description": "世界に飽きていた逆廻十六夜に届いた一通の招待状。『全てを捨て、“箱庭”に来られたし』と書かれた手紙を読んだ瞬間ー完全無欠な異世界にいました!そこには猫を連れた無口な少女と高飛車なお嬢さま、そして彼らを呼んだ張本人の黒ウサギ。ウサギが箱庭世界のルールを説明しているさなか「魔王を倒そうぜ!」と十六夜が言いだして!?そんなこと黒ウサギは頼んでいないのですがっ!!超問題児3人と黒ウサギの明日はどっちだ。", 
-  "publishedDate": "2011-03-31", 
   "title": {
-    "transcription": "モンダイジタチ ガ イセカイ カラ クルソウデスヨ", 
+    "name": "問題児たちが異世界から来るそうですよ?", 
+    "transcription": "モンダイジタチ ガ イセカイ カラ クルソウデスヨ",
+    "parallels": []
     "relatedInformation": [
       {
         "transcription": "YES ウサギ ガ ヨビマシタ", 
@@ -39,9 +27,7 @@ shoshi は国立国会図書館，Amazon，楽天，Wikipedia のAPIを組み合
         "parallels": []
       }
     ], 
-    "name": "問題児たちが異世界から来るそうですよ?", 
-    "parallels": []
-  }, 
+  },
   "series": [
     {
       "number": "16763", 
@@ -61,6 +47,20 @@ shoshi は国立国会図書館，Amazon，楽天，Wikipedia のAPIを組み合
       }
     }
   ], 
+  "publishers": [
+    {
+      "transcription": "カドカワショテン", 
+      "name": "角川書店", 
+      "location": "東京"
+    }, 
+    {
+      "transcription": "カドカワグループパブリッシング", 
+      "name": "角川グループパブリッシング", 
+      "location": "東京"
+    }
+  ], 
+  "description": "世界に飽きていた逆廻十六夜に届いた一通の招待状。『全てを捨て、“箱庭”に来られたし』と書かれた手紙を読んだ瞬間ー完全無欠な異世界にいました!そこには猫を連れた無口な少女と高飛車なお嬢さま、そして彼らを呼んだ張本人の黒ウサギ。ウサギが箱庭世界のルールを説明しているさなか「魔王を倒そうぜ!」と十六夜が言いだして!?そんなこと黒ウサギは頼んでいないのですがっ!!超問題児3人と黒ウサギの明日はどっちだ。", 
+  "publishedDate": "2011-03-31", 
   "price": "590", 
   "identifiers": {
     "ASIN": "404474839X", 
