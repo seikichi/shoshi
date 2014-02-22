@@ -145,20 +145,18 @@ def creators_from_strings(author, author_kana):
 if __name__ == '__main__':
     import json
     import argparse
-    from .util import namedtuple2dict
     parser = argparse.ArgumentParser(
         description='find book metadata from Rakuten')
-    parser.add_argument('--application-id', action='store', dest='application_id',
-                        required=True)
+    parser.add_argument('--rakuten-application-id', action='store',
+                        dest='application_id', required=True)
     parser.add_argument('--isbn', action="store", dest="isbn")
     parser.add_argument('--magazine', action="store", dest="jan")
-    parser.add_argument('--delete-false-items', action='store_true',
-                        dest='delete_false_items')
+    parser.add_argument('--include-null-value-field', action='store_true',
+                        dest='include_none_value_field')
     args = parser.parse_args()
     metadata = Metadata()
     if args.isbn:
         metadata = metadata_from_isbn(args.isbn, args.application_id)
     elif args.jan:
         metadata = metadata_from_magazine_code(args.jan, args.application_id)
-    print(json.dumps(namedtuple2dict(metadata, args.delete_false_items),
-                     ensure_ascii=False))
+    print(json.dumps(metadata.todict(args.include_none_value_field)))
