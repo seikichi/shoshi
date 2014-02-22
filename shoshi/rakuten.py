@@ -133,12 +133,20 @@ def title_and_volume_from_strings(title, title_kana):
 
 def creators_from_strings(author, author_kana):
     creators = []
-    for name, transcription in zip(author.split('/'),
-                                   author_kana.split('/')):
-        creators.append(Creator(
-            normalize_author(name),
-            ' '.join(normalize(transcription).split(',')),
-            None, None, None))
+    # "グレッグ・イ-ガン" の様に長音符 "ー" が半角ハイフンに
+    # 置き換えられている謎の現象が稀に見られるので対処
+    choonpu_pattern = re.compile(r'(?<=[ぁ-んァ-ン])-')
+    author = choonpu_pattern.sub('ー', author)
+    author_kana = choonpu_pattern.sub('ー', author_kana)
+
+    for name, transcription in zip(author.split('/'), author_kana.split('/')):
+        name = normalize_author(name)
+        transcription = ' '.join(normalize(transcription).split(','))
+        # API では "グレッグ・イーガン" の読みが "イーガン グレッグ" 
+        # となっている．NDL と食い違って面倒なので修正しておく
+        if name.endswith(transcription.split()[0]):
+            transcription = ' '.join(reversed(transcription.split()))
+        creators.append(Creator(name, transcription))
     return creators
 
 
