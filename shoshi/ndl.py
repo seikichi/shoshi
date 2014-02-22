@@ -129,7 +129,8 @@ def create_dcterms_creators_from_root(root):
                               namespaces=root.nsmap):
         name_elem = creator.find('.//foaf:name', root.nsmap)
         transcription_elem = creator.find('.//dcndl:transcription', root.nsmap)
-        name = name_elem.text if name_elem is not None else ''
+        name = (normalize(re.sub(r'\s+', '', name_elem.text))
+                if name_elem is not None else '')
         transcription = (transcription_elem.text
                          if transcription_elem is not None else '')
         dcterms_creators.append(
@@ -147,7 +148,7 @@ def create_creators_from_root(root):
 
     for p in descriptions_from_root(root):
         if p.startswith('イラスト:'):
-            name = p.split(':', maxsplit=1)[1].strip()
+            name = re.sub(r'\s+', '', p.split(':', maxsplit=1)[1].strip())
             creators.append(Creator(name=name, transcription=None, role='イラスト',
                                     date_of_birth=None, date_of_death=None))
     return creators
@@ -305,6 +306,7 @@ def create_creators_from_dc_creator(value, dcterms_creators):
     name_delimiter = ', '
     creators = []
     for v in value.split(name_delimiter):
+        v = re.sub(r'\s+', '', normalize(v))
         transcription = None
         date_of_birth = None
         date_of_death = None
@@ -316,7 +318,7 @@ def create_creators_from_dc_creator(value, dcterms_creators):
                 break
         transcription = None if transcription == '' else transcription
         creators.append(Creator(
-            name=normalize(v),
+            name=normalize(v).replace(' ', ''),
             transcription=normalize(transcription),
             role=normalize(role),
             date_of_birth=date_of_birth,
@@ -325,6 +327,7 @@ def create_creators_from_dc_creator(value, dcterms_creators):
 
 
 def create_creator_from_dcterms_creator(name, transcription):
+    name, transcription = normalize(name), normalize(transcription)
     name_pattern = re.compile(
         r'^(?P<name>.+?)' +
         r'(, (?P<date_of_birth>\d{4})-(?P<date_of_death>\d{4})?)?$',
