@@ -121,7 +121,7 @@ def merge(ndl_metadata, amazon_metadata, rakuten_metadata, wikipedia_metadata):
     creators = []
     # 翻訳モノは名前の表記がカタカナだったりそうじゃなかったりマチマチ
     # になるので，各メタデータの統合は諦める
-    if nm.creators and any('訳' in c.role for c in nm.creators if c):
+    if nm.creators and any('訳' in c.role for c in nm.creators if c.role):
         creators = nm.creators
     else:
         for m in (nm, am, rm):
