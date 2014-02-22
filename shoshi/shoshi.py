@@ -24,6 +24,8 @@ def metadata_from_ean(ean,
     rakuten_metadata = Metadata()
     wikipedia_metadata = Metadata()
     ndl_metadata = ndl.metadata_from_isbn(ean)
+    if not ndl_metadata.identifiers:
+        ndl_metadata.identifiers['EAN'] = ean
 
     if amazon_auth_info:
         amazon_metadata = amazon.metadata_from_ean(
@@ -55,7 +57,10 @@ def metadata_from_jpno(jpno,
                        amazon_auth_info=None,
                        rakuten_application_id=None,
                        use_wikipedia=False):
+    jpno = jpno.replace('-', '')
     metadata = ndl.metadata_from_jpno(jpno)
+    if not metadata.identifiers:
+        metadata.identifiers['JPNO'] = jpno
     if 'ISBN13' in metadata.identifiers:
         return metadata_from_isbn(metadata.identifiers['ISBN13'],
                                   amazon_auth_info,

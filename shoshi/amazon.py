@@ -53,9 +53,10 @@ def metadata_from_ean(EAN, access_key_id, secret_access_key, associate_tag):
              if title_elem else None)
     published_date_elem = getattr(Item.ItemAttributes, 'PublicationDate', '')
     published_date = published_date_elem.text if published_date_elem else None
-    price_elem = getattr(Item.ItemAttributes.ListPrice, 'Amount')
-    price = price_elem.text if price_elem else None
-    price = str(int(int(price) / 1.05))
+    price = None
+    list_price_elem = getattr(Item.ItemAttributes, 'ListPrice', None)
+    if list_price_elem is not None:
+        price = str(int(int(list_price_elem.Amount.text) / 1.05))
 
     creators = []
     for author in getattr(root.Items.Item.ItemAttributes, 'Author', []):
