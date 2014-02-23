@@ -41,6 +41,15 @@ def metadata_from_isbn(isbn, application_id):
     publishers = [Publisher(normalize(item.get('publisherName')))]
     links = [item.get('itemUrl')]
 
+    if item.get('contents') and volume is not None:
+        volume_title_name = normalize(item.get('contents'))
+        volume_title_transcription = None
+        if item.get('contentsKana'):
+            volume_title_transcription = normalize(item.get('contentsKana'))
+        volume = Volume(volume.name, volume.transcription, Title(
+            volume_title_name,
+            volume_title_transcription))
+
     if item.get('subtitle'):
         subtitle, _ = title_and_volume_from_strings(
             item.get('subtitle'), item.get('subtitleKana'))
