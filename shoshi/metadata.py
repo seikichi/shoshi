@@ -26,9 +26,10 @@ class Publisher(object):
 
 
 class Volume(object):
-    def __init__(self, name, transcription=None):
+    def __init__(self, name, transcription=None, title=None):
         self.name = name
         self.transcription = transcription
+        self.title = title
 
 
 class Creator(object):
