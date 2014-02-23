@@ -160,7 +160,7 @@ def creators_from_strings(author, author_kana):
         transcription = ' '.join(normalize(transcription).split(','))
         # API では "グレッグ・イーガン" の読みが "イーガン グレッグ" 
         # となっている．NDL と食い違って面倒なので修正しておく
-        if name.endswith(transcription.split()[0]):
+        if transcription and name.endswith(transcription.split()[0]):
             transcription = ' '.join(reversed(transcription.split()))
         creators.append(Creator(name, transcription))
     return creators
