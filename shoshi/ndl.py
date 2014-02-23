@@ -114,12 +114,12 @@ def create_volume_from_root(root):
                      if volume_transcription_elem is not None else '')
     volume = create_volume_from_strings(value, transcription)
 
-    # if volume.title is not None:
-    #     for p in descriptions_from_root(root) + alternatives_from_root(root):
-    #         if p.startswith('各巻の並列タイトル:'):
-    #             for parallel in map(str.strip, p.split(':')[1:]):
-    #                 if parallel not in volume.title.parallels:
-    #                     volume.title.parallels.append(parallel)
+    if volume.title is not None:
+        for p in descriptions_from_root(root) + alternatives_from_root(root):
+            if p.startswith('各巻の並列タイトル:'):
+                for parallel in map(str.strip, p.split(':')[1:]):
+                    if parallel not in volume.title.parallels:
+                        volume.title.parallels.append(parallel)
     return volume
 
 
@@ -259,36 +259,35 @@ def create_series_from_strings(value, transcription):
 
 
 def create_volume_from_strings(value, transcription):
-    # # 巻次タイトルには括弧() の入れ子を一重まで許可する
-    # NO_PAREN = r'[^\(\)]'
-    # volume_title_pattern = re.compile(
-    #     r'\(({0}+(\({0}*\){0}*)*)\)$'.format(NO_PAREN), re.U)
-    # value_match = volume_title_pattern.search(value)
-    # transcription_match = volume_title_pattern.search(transcription)
-    # title = None
-    # if (value_match is not None) and (transcription_match is not None):
-    #     title = create_title_from_strings(value_match.groups()[0],
-    #                                       transcription_match.groups()[0])
-    #     value = value[:value_match.start()].strip()
-    #     transcription = transcription[:transcription_match.start()].strip()
-    # elif value_match is not None:
-    #     value = value[:value_match.start()].strip()
-    #     if transcription.startswith(value):
-    #         # value = "1 (ほげ)", transcription = "1 ホゲ"
-    #         volume_title_transcription = transcription[len(value):].strip()
-    #         title = create_title_from_strings(value_match.groups()[0],
-    #                                           volume_title_transcription)
-    #         transcription = transcription[:len(value)]
-    #     else:
-    #         title = create_title_from_strings(value_match.groups()[0], '')
-    # return Volume(name=value, transcription=transcription, title=title)
     value = normalize(value or '')
     transcription = normalize(transcription or '')
     if not value:
         return None
+    # 巻次タイトルには括弧() の入れ子を一重まで許可する
+    NO_PAREN = r'[^\(\)]'
+    volume_title_pattern = re.compile(
+        r'\(({0}+(\({0}*\){0}*)*)\)$'.format(NO_PAREN), re.U)
+    value_match = volume_title_pattern.search(value)
+    transcription_match = volume_title_pattern.search(transcription)
+    title = None
+    if (value_match is not None) and (transcription_match is not None):
+        title = create_title_from_strings(value_match.groups()[0],
+                                          transcription_match.groups()[0])
+        value = value[:value_match.start()].strip()
+        transcription = transcription[:transcription_match.start()].strip()
+    elif value_match is not None:
+        value = value[:value_match.start()].strip()
+        if transcription.startswith(value):
+            # value = "1 (ほげ)", transcription = "1 ホゲ"
+            volume_title_transcription = transcription[len(value):].strip()
+            title = create_title_from_strings(value_match.groups()[0],
+                                              volume_title_transcription)
+            transcription = transcription[:len(value)]
+        else:
+            title = create_title_from_strings(value_match.groups()[0], '')
     if transcription == '':
         transcription = None
-    return Volume(name=value, transcription=transcription)
+    return Volume(name=value, transcription=transcription, title=title)
 
 
 def create_creators_from_dc_creator(value, dcterms_creators):
