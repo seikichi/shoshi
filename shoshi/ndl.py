@@ -114,7 +114,7 @@ def create_volume_from_root(root):
                      if volume_transcription_elem is not None else '')
     volume = create_volume_from_strings(value, transcription)
 
-    if volume.title is not None:
+    if volume and volume.title:
         for p in descriptions_from_root(root) + alternatives_from_root(root):
             if p.startswith('各巻の並列タイトル:'):
                 for parallel in map(str.strip, p.split(':')[1:]):
@@ -148,7 +148,7 @@ def create_creators_from_root(root):
 
     for p in descriptions_from_root(root):
         if p.startswith('イラスト:'):
-            name = re.sub(r'\s+', '', p.split(':', maxsplit=1)[1].strip())
+            name = re.sub(r'\s+', '', p.split(':', 1)[1].strip())
             creators.append(Creator(name=name, transcription=None, role='イラスト',
                                     date_of_birth=None, date_of_death=None))
     return creators
