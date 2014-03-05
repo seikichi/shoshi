@@ -26,14 +26,18 @@ def metadata_from_ean(EAN, access_key_id, secret_access_key, associate_tag):
     EAN = EAN.replace('-', '')
     if re.match(r'^\d{9}(\d|X|x)$', EAN):
         EAN = isbn10to13(EAN)
-    amazon = bottlenose.Amazon(str(access_key_id),
-                               str(secret_access_key),
-                               str(associate_tag), Region='JP')
-    root = objectify.fromstring(amazon.ItemLookup(
-        ItemId=EAN,
-        SearchIndex='Books',
-        IdType='ISBN',
-        ResponseGroup='EditorialReview,Images,ItemAttributes'))
+
+    try:
+        amazon = bottlenose.Amazon(str(access_key_id),
+                                   str(secret_access_key),
+                                   str(associate_tag), Region='JP')
+        root = objectify.fromstring(amazon.ItemLookup(
+            ItemId=EAN,
+            SearchIndex='Books',
+            IdType='ISBN',
+            ResponseGroup='EditorialReview,Images,ItemAttributes'))
+    except:
+        return Metadata()
 
     if not hasattr(root.Items, 'Item'):
         return Metadata()

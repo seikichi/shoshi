@@ -378,7 +378,10 @@ def descriptions_from_root(root):
 def metadata_from_jpno(jpno):
     URL = 'http://iss.ndl.go.jp/api/opensearch'
     jpno = re.sub(r'-', '', normalize(jpno))
-    response = requests.get(URL, params={'jpno': jpno})
+    try:
+        response = requests.get(URL, params={'jpno': jpno})
+    except:
+        return Metadata()
     return metadata_from_opensearch_response(response)
 
 
@@ -387,7 +390,10 @@ def metadata_from_isbn(isbn):
     isbn = re.sub(r'-', '', normalize(isbn))
     if len(isbn) == 10:
         isbn = isbn10to13(isbn)
-    response = requests.get(URL, params={'isbn': isbn})
+    try:
+        response = requests.get(URL, params={'isbn': isbn})
+    except:
+        return Metadata()
     return metadata_from_opensearch_response(response)
 
 
@@ -408,7 +414,10 @@ def metadata_from_opensearch_response(response):
     if item is None:
         return Metadata()
     dcndl_rdf_url = item.guid.text + '.rdf'
-    response = requests.get(dcndl_rdf_url)
+    try:
+        response = requests.get(dcndl_rdf_url)
+    except:
+        return Metadata()
     return create_metadata_from_xml_root(
         lxml.objectify.fromstring(response.content))
 
