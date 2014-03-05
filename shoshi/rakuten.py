@@ -134,9 +134,11 @@ def title_and_volume_from_strings(title, title_kana):
     # ちなみに "問題児たちが異世界から来るそうですよ？（YES！箱庭の日常ですっ！）"
     # というタイトルの場合は括弧の中身を巻次扱いしたい
     # NOTE: NDL だとタイトル関連情報に入ったり入らなかったりする
+    # NOTE: 括弧の入れ子を考慮しないと "WEB＋DB PRESS（vol．67（2012））"
+    #       で死ぬことが判明したので一重まで対処
     NO_PAREN = r'[^\（\）]'
     volume_title_pattern = re.compile(
-        r'\（({0}*[^ぁ-んァ-ン]{0}*)\）$'.format(NO_PAREN), re.U)
+        r'\（(?:({0}*[^ぁ-んァ-ン\（\）]{0}*(?:\（{0}*\）)?)+)\）$'.format(NO_PAREN), re.U)
     value_match = volume_title_pattern.search(title)
     if value_match is None:
         volume = None
@@ -160,7 +162,7 @@ def creators_from_strings(author, author_kana):
     for name, transcription in zip(author.split('/'), author_kana.split('/')):
         name = normalize_author(name)
         transcription = ' '.join(normalize(transcription).split(','))
-        # API では "グレッグ・イーガン" の読みが "イーガン グレッグ" 
+        # API では "グレッグ・イーガン" の読みが "イーガン グレッグ"
         # となっている．NDL と食い違って面倒なので修正しておく
         if transcription and name.endswith(transcription.split()[0]):
             transcription = ' '.join(reversed(transcription.split()))
