@@ -254,6 +254,15 @@ def create_series_from_strings(value, transcription):
         if t.find(number_delimiter) >= 0:
             t, number = t.split(number_delimiter)
         title = create_title_from_strings(v, t)
+        # 稀にシリーズ名が[]で囲まれている
+        # 表題の場合も[]を消してしまっていいか少し悩ましかったので
+        # 場当たり的だがここで対処
+        if title.name.startswith('[') and title.name.endswith(']'):
+            title = Title(name=title.name[1:-1],
+                          transcription=title.transcription,
+                          parallels=title.parallels,
+                          related_information=title.related_information)
+            value = value[1:-1]
         series.append(Series(title=title, number=number))
     return series
 
