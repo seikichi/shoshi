@@ -127,6 +127,10 @@ def metadata_from_isbn(isbn, title, authors):
                 if re.search(r'\w', text, re.U) is None:
                     continue
                 text = re.sub(r'、|，', '', text, re.U)
+                # "経済（商業・商取引・金融・流通 他）" で "他）"
+                # がジャンルに含まれてしまう問題に場当たり的に対処...
+                if (text.endswith('他）')):
+                    continue
                 genre.append(text)
 
     # Infobox animanga 内には，ノベライズやコミカライズ版の情報も入っている
