@@ -149,6 +149,8 @@ def title_and_volume_from_strings(title, title_kana):
 
 def creators_from_strings(author, author_kana):
     creators = []
+    if not author:
+        return creators
     # "グレッグ・イ-ガン" の様に長音符 "ー" が半角ハイフンに
     # 置き換えられている謎の現象が稀に見られるので対処
     choonpu_pattern = re.compile(r'(?<=[ぁ-んァ-ン])-')
