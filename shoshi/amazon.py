@@ -3,6 +3,7 @@
 
 import re
 import bottlenose
+import time
 from lxml import objectify
 import lxml.html
 from .util import isbn10to13, isbn13to10, normalize
@@ -27,16 +28,21 @@ def metadata_from_ean(EAN, access_key_id, secret_access_key, associate_tag):
     if re.match(r'^\d{9}(\d|X|x)$', EAN):
         EAN = isbn10to13(EAN)
 
-    try:
-        amazon = bottlenose.Amazon(str(access_key_id),
-                                   str(secret_access_key),
-                                   str(associate_tag), Region='JP')
-        root = objectify.fromstring(amazon.ItemLookup(
-            ItemId=EAN,
-            SearchIndex='Books',
-            IdType='ISBN',
-            ResponseGroup='EditorialReview,Images,ItemAttributes'))
-    except:
+    # 十分 (だと思われる) 待ち時間を入れてもたまに失敗するねん ...
+    for i in range(3):
+        try:
+            amazon = bottlenose.Amazon(str(access_key_id),
+                                       str(secret_access_key),
+                                       str(associate_tag), Region='JP')
+            root = objectify.fromstring(amazon.ItemLookup(
+                ItemId=EAN,
+                SearchIndex='Books',
+                IdType='ISBN',
+                ResponseGroup='EditorialReview,Images,ItemAttributes'))
+            break
+        except:
+            time.sleep(5)
+    else:
         return Metadata()
 
     if not hasattr(root.Items, 'Item'):
